@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SevaHealth+ | Smart Healthcare</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Navbar */
+nav {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+nav ul li {
+    cursor: pointer;
+}
+
+nav ul li:hover {
+    color: #4A90E2;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(to right, #4A90E2, #357ABD);
+    color: white;
+    padding: 60px 50px;
+    text-align: center;
+}
+
+.hero button {
+    padding: 12px 25px;
+    border: none;
+    background: white;
+    color: #357ABD;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Features */
+.features {
+    padding: 60px 50px;
+    text-align: center;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.feature-card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.feature-card button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background: #4A90E2;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Appointments */
+.appointments {
+    background: white;
+    padding: 60px 50px;
+}
+
+.appointment-list {
+    max-width: 600px;
+    margin: auto;
+}
+
+.appointment-item {
+    background: #f4f6f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.add-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <h1>SevaHealth+</h1>
+    <ul>
+        <li onclick="scrollToSection('hero')">Home</li>
+        <li onclick="scrollToSection('features')">Services</li>
+        <li onclick="scrollToSection('appointments')">Appointments</li>
+        <li onclick="showProfile()">Profile</li>
+        <li onclick="contact()">Contact</li>
+    </ul>
+</nav>
+
+<section class="hero" id="hero">
+    <h2>Your Health, Our Priority</h2>
+    <p>Book appointments and consult doctors online.</p>
+    <button onclick="bookAppointment()">Book Appointment</button>
+</section>
+
+<section class="features" id="features">
+    <h2>Our Services</h2>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <h3>📅 Appointment</h3>
+            <button onclick="bookAppointment()">Open</button>
+        </div>
+
+        <div class="feature-card">
+            <h3>📹 Video Call</h3>
+            <button onclick="videoCall()">Start</button>
+        </div>
+
+        <div class="feature-card">
+            <h3>📄 E-Prescription</h3>
+            <button onclick="prescription()">View</button>
+        </div>
+
+        <div class="feature-card">
+            <h3>🧪 Lab Test</h3>
+            <button onclick="labTest()">Book</button>
+        </div>
+
+    </div>
+</section>
+
+<section class="appointments" id="appointments">
+
+    <h2>My Appointments</h2>
+
+    <div class="appointment-list" id="appointmentList">
+
+        <div class="appointment-item">
+            Dr. Kumar – General Checkup
+        </div>
+
+    </div>
+
+    <button class="add-btn" onclick="addAppointment()">Add Appointment</button>
+
+</section>
+
+<footer>
+© 2026 SevaHealth+
+</footer>
+
+<script>
+
+// Book Appointment
+function bookAppointment() {
+    alert("Appointment booking opened!");
+    scrollToSection('appointments');
+}
+
+// Video Call
+function videoCall() {
+    alert("Starting video consultation...");
+}
+
+// Prescription
+function prescription() {
+    alert("Opening prescriptions...");
+}
+
+// Lab Test
+function labTest() {
+    alert("Lab test booking opened!");
+}
+
+// Add Appointment dynamically
+function addAppointment() {
+
+    let doctor = prompt("Enter Doctor Name:");
+
+    if(doctor){
+
+        let div = document.createElement("div");
+
+        div.className = "appointment-item";
+
+        div.innerHTML = doctor + " – Consultation";
+
+        document.getElementById("appointmentList").appendChild(div);
+    }
+}
+
+// Profile
+function showProfile() {
+    alert("Profile page opening...");
+}
+
+// Contact
+function contact() {
+    alert("Contact support at support@sevahealth.com");
+}
+
+// Smooth Scroll
+function scrollToSection(id) {
+
+    document.getElementById(id).scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
