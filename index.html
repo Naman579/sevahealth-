@@ -64,6 +64,10 @@ nav ul li:hover {
     cursor: pointer;
 }
 
+.hero button:hover {
+    background: #f0f0f0;
+}
+
 /* Features */
 .features {
     padding: 60px 50px;
@@ -93,6 +97,10 @@ nav ul li:hover {
     cursor: pointer;
 }
 
+.feature-card button:hover {
+    background: #357ABD;
+}
+
 /* Appointments */
 .appointments {
     background: white;
@@ -113,13 +121,32 @@ nav ul li:hover {
 
 .add-btn {
     display: block;
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 10px 20px;
     background: #27ae60;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.add-btn:hover {
+    background: #1e8449;
+}
+
+.view-btn{
+    display:block;
+    margin:10px auto;
+    padding:10px 20px;
+    background:#e67e22;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.view-btn:hover{
+    background:#ca6f1e;
 }
 
 /* Footer */
@@ -134,6 +161,7 @@ footer {
 
 <body>
 
+<!-- Navbar -->
 <nav>
     <h1>SevaHealth+</h1>
     <ul>
@@ -145,12 +173,14 @@ footer {
     </ul>
 </nav>
 
+<!-- Hero -->
 <section class="hero" id="hero">
     <h2>Your Health, Our Priority</h2>
     <p>Book appointments and consult doctors online.</p>
     <button onclick="bookAppointment()">Book Appointment</button>
 </section>
 
+<!-- Features -->
 <section class="features" id="features">
     <h2>Our Services</h2>
 
@@ -179,84 +209,99 @@ footer {
     </div>
 </section>
 
+<!-- My Appointments -->
 <section class="appointments" id="appointments">
 
-    <h2>My Appointments</h2>
+<h2>My Appointments</h2>
 
-    <div class="appointment-list" id="appointmentList">
+<div class="appointment-list" id="appointmentList">
+</div>
 
-        <div class="appointment-item">
-            Dr. Kumar – General Checkup
-        </div>
+<button class="add-btn" onclick="bookAppointment()">
+Book New Appointment
+</button>
 
-    </div>
-
-    <button class="add-btn" onclick="addAppointment()">Add Appointment</button>
+<button class="view-btn" onclick="viewAppointmentsPage()">
+Open Full Appointments Page
+</button>
 
 </section>
 
+<!-- Footer -->
 <footer>
-© 2026 SevaHealth+
+© 2026 SevaHealth+ | Smart Healthcare
 </footer>
 
 <script>
 
-// Book Appointment
-function bookAppointment() {
-    alert("Appointment booking opened!");
-    scrollToSection('appointments');
+// Load appointments from localStorage
+function loadAppointments(){
+
+let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+let list = document.getElementById("appointmentList");
+
+list.innerHTML = "";
+
+if(appointments.length === 0){
+list.innerHTML = "<div class='appointment-item'>No appointments yet</div>";
+return;
 }
 
-// Video Call
-function videoCall() {
-    alert("Starting video consultation...");
-}
+appointments.forEach(function(app){
 
-// Prescription
-function prescription() {
-    alert("Opening prescriptions...");
-}
+let div = document.createElement("div");
 
-// Lab Test
-function labTest() {
-    alert("Lab test booking opened!");
-}
+div.className = "appointment-item";
 
-// Add Appointment dynamically
-function addAppointment() {
+div.innerHTML =
+"<strong>Doctor:</strong> " + app.doctor +
+"<br><strong>Date:</strong> " + app.date;
 
-    let doctor = prompt("Enter Doctor Name:");
+list.appendChild(div);
 
-    if(doctor){
-
-        let div = document.createElement("div");
-
-        div.className = "appointment-item";
-
-        div.innerHTML = doctor + " – Consultation";
-
-        document.getElementById("appointmentList").appendChild(div);
-    }
-}
-
-// Profile
-function showProfile() {
-    alert("Profile page opening...");
-}
-
-// Contact
-function contact() {
-    alert("Contact support at support@sevahealth.com");
-}
-
-// Smooth Scroll
-function scrollToSection(id) {
-
-    document.getElementById(id).scrollIntoView({
-        behavior: "smooth"
-    });
+});
 
 }
+
+// Open pages
+function bookAppointment(){
+window.location.href="appointment.html";
+}
+
+function videoCall(){
+window.location.href="videocall.html";
+}
+
+function prescription(){
+window.location.href="prescription.html";
+}
+
+function labTest(){
+window.location.href="labtest.html";
+}
+
+function showProfile(){
+window.location.href="profile.html";
+}
+
+function contact(){
+window.location.href="contact.html";
+}
+
+function viewAppointmentsPage(){
+window.location.href="myappointments.html";
+}
+
+// Scroll
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({
+behavior:"smooth"
+});
+}
+
+// Load when page opens
+loadAppointments();
 
 </script>
 
