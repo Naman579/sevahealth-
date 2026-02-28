@@ -26,7 +26,7 @@ color:#333;
 nav{
 background:#2c3e50;
 color:white;
-padding:15px 20px;
+padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -34,19 +34,19 @@ flex-wrap:wrap;
 }
 
 nav h1{
-font-size:22px;
+font-size:20px;
 }
 
 nav ul{
 list-style:none;
 display:flex;
-gap:20px;
+gap:15px;
 flex-wrap:wrap;
 }
 
 nav ul li{
 cursor:pointer;
-font-size:16px;
+font-size:15px;
 }
 
 nav ul li:hover{
@@ -57,33 +57,35 @@ color:#4A90E2;
 .hero{
 background:linear-gradient(to right,#4A90E2,#357ABD);
 color:white;
-padding:60px 20px;
+padding:50px 15px;
 text-align:center;
 }
 
 .hero h2{
-font-size:28px;
+font-size:26px;
 margin-bottom:10px;
 }
 
 .hero p{
-font-size:16px;
+font-size:15px;
 margin-bottom:20px;
 }
 
 .hero button{
-padding:12px 25px;
+padding:12px 20px;
 border:none;
 background:white;
 color:#357ABD;
 font-size:16px;
-border-radius:5px;
+border-radius:6px;
 cursor:pointer;
+width:200px;
+max-width:90%;
 }
 
 /* FEATURES */
 .features{
-padding:40px 20px;
+padding:30px 15px;
 text-align:center;
 }
 
@@ -93,20 +95,20 @@ margin-bottom:20px;
 
 .feature-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:15px;
 }
 
 .feature-card{
 background:white;
-padding:20px;
+padding:18px;
 border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 
 .feature-card button{
 margin-top:10px;
-padding:10px 15px;
+padding:10px;
 border:none;
 background:#4A90E2;
 color:white;
@@ -115,35 +117,30 @@ cursor:pointer;
 width:100%;
 }
 
-/* APPOINTMENTS */
+/* APPOINTMENT PREVIEW */
 .appointments{
+padding:30px 15px;
 background:white;
-padding:40px 20px;
+margin:15px;
+border-radius:10px;
+}
+
+.appointments h2{
+text-align:center;
+margin-bottom:15px;
 }
 
 .appointment-list{
-max-width:600px;
+max-width:500px;
 margin:auto;
 }
 
 .appointment-item{
 background:#f4f6f9;
-padding:15px;
-border-radius:8px;
+padding:12px;
+border-radius:6px;
 margin-bottom:10px;
 font-size:14px;
-}
-
-.add-btn{
-display:block;
-margin:20px auto;
-padding:12px 20px;
-background:#27ae60;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-width:200px;
 }
 
 /* FOOTER */
@@ -153,6 +150,7 @@ color:white;
 text-align:center;
 padding:15px;
 font-size:14px;
+margin-top:20px;
 }
 
 /* MOBILE OPTIMIZATION */
@@ -169,27 +167,11 @@ width:100%;
 margin-top:10px;
 }
 
-nav ul li{
-padding:5px 0;
-}
-
-.hero{
-padding:40px 15px;
-}
-
 .hero h2{
 font-size:22px;
 }
 
-.hero p{
-font-size:14px;
-}
-
-.feature-card{
-padding:15px;
-}
-
-.add-btn{
+.hero button{
 width:100%;
 }
 
@@ -266,6 +248,19 @@ Book Appointment
 
 </section>
 
+<!-- APPOINTMENT PREVIEW SECTION -->
+<section class="appointments">
+
+<h2>Your Appointments</h2>
+
+<div class="appointment-list" id="appointmentList">
+
+<p style="text-align:center;color:gray;">No appointments yet</p>
+
+</div>
+
+</section>
+
 <!-- FOOTER -->
 <footer>
 
@@ -275,13 +270,46 @@ Book Appointment
 
 <script>
 
+/* Smooth scroll */
 function scrollToSection(id){
-
 document.getElementById(id).scrollIntoView({
 behavior:"smooth"
 });
+}
+
+/* LOAD appointments from localStorage */
+function loadAppointments(){
+
+let data = localStorage.getItem("appointments");
+
+let list = document.getElementById("appointmentList");
+
+if(data){
+
+let appointments = JSON.parse(data);
+
+list.innerHTML = "";
+
+appointments.forEach(function(app){
+
+let div = document.createElement("div");
+
+div.className="appointment-item";
+
+div.innerHTML=
+"<b>"+app.name+"</b><br>"+
+app.doctor+"<br>"+
+app.date+" "+app.time;
+
+list.appendChild(div);
+
+});
 
 }
+
+}
+
+loadAppointments();
 
 </script>
 
