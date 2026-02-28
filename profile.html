@@ -3,7 +3,10 @@
 <head>
 <title>Profile | SevaHealth+</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
+
 body{
 font-family: Arial;
 background:#f4f6f9;
@@ -18,16 +21,78 @@ padding:15px;
 }
 
 .container{
-padding:50px;
+padding:50px 20px;
 }
 
 .profile{
 background:white;
 padding:20px;
-width:300px;
+width:320px;
 margin:auto;
 border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:left;
 }
+
+.profile h3{
+text-align:center;
+margin-bottom:15px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:10px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-top:5px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:10px;
+margin-top:15px;
+border:none;
+border-radius:5px;
+font-size:15px;
+cursor:pointer;
+}
+
+.edit-btn{
+background:#3498db;
+color:white;
+}
+
+.save-btn{
+background:#27ae60;
+color:white;
+}
+
+.back-btn{
+background:#2c3e50;
+color:white;
+}
+
+.success{
+color:green;
+text-align:center;
+margin-top:10px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.profile{
+width:100%;
+}
+
+}
+
 </style>
 
 </head>
@@ -42,19 +107,100 @@ border-radius:10px;
 
 <div class="profile">
 
-<h3>Name: Naman</h3>
-<p>Email: naman@email.com</p>
-<p>Phone: 9876543210</p>
+<h3>User Profile</h3>
+
+<label>Name</label>
+<input type="text" id="name" disabled>
+
+<label>Email</label>
+<input type="email" id="email" disabled>
+
+<label>Phone</label>
+<input type="text" id="phone" disabled>
+
+<label>Age</label>
+<input type="number" id="age" disabled>
+
+<button class="edit-btn" onclick="enableEdit()">
+Edit Profile
+</button>
+
+<button class="save-btn" onclick="saveProfile()">
+Save Profile
+</button>
+
+<div class="success" id="msg"></div>
 
 </div>
 
 <br>
 
-<a href="index.html">
-<button>Back to Home</button>
-</a>
+<button class="back-btn" onclick="goHome()">
+Back to Home
+</button>
 
 </div>
+
+<script>
+
+/* LOAD PROFILE */
+function loadProfile(){
+
+let profile =
+JSON.parse(localStorage.getItem("profile")) || {};
+
+document.getElementById("name").value =
+profile.name || "";
+
+document.getElementById("email").value =
+profile.email || "";
+
+document.getElementById("phone").value =
+profile.phone || "";
+
+document.getElementById("age").value =
+profile.age || "";
+
+}
+
+/* ENABLE EDIT */
+function enableEdit(){
+
+document.getElementById("name").disabled=false;
+document.getElementById("email").disabled=false;
+document.getElementById("phone").disabled=false;
+document.getElementById("age").disabled=false;
+
+}
+
+/* SAVE PROFILE */
+function saveProfile(){
+
+let profile={
+
+name:document.getElementById("name").value,
+email:document.getElementById("email").value,
+phone:document.getElementById("phone").value,
+age:document.getElementById("age").value
+
+};
+
+localStorage.setItem("profile",JSON.stringify(profile));
+
+document.getElementById("msg").innerHTML=
+"✅ Profile saved successfully";
+
+}
+
+/* BACK */
+function goHome(){
+window.location.href="index.html";
+}
+
+/* AUTO LOAD */
+loadProfile();
+
+</script>
 
 </body>
 </html>
