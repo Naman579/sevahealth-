@@ -35,21 +35,6 @@ font-size:22px;
 cursor:pointer;
 }
 
-/* BACK BUTTON IN NAV */
-.back-btn{
-background:#e74c3c;
-color:white;
-border:none;
-padding:8px 15px;
-border-radius:5px;
-cursor:pointer;
-font-size:14px;
-}
-
-.back-btn:hover{
-background:#c0392b;
-}
-
 .container{
 max-width:500px;
 background:white;
@@ -100,6 +85,24 @@ text-align:center;
 margin-top:10px;
 }
 
+/* NEW BACK BUTTON STYLE */
+.bottom-back-btn{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#34495e;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.bottom-back-btn:hover{
+background:#2c3e50;
+}
+
 /* MOBILE */
 @media(max-width:768px){
 
@@ -121,11 +124,6 @@ padding:20px;
 <h1 onclick="window.location.href='index.html'">
 SevaHealth+
 </h1>
-
-<!-- BACK BUTTON ADDED -->
-<button class="back-btn" onclick="goBack()">
-← Back
-</button>
 
 </nav>
 
@@ -163,18 +161,17 @@ Book Appointment
 
 <div class="success" id="successMsg"></div>
 
+<!-- BACK BUTTON AT BOTTOM -->
+<button class="bottom-back-btn" onclick="goBack()">
+← Back to Home
+</button>
+
 </div>
 
 <script>
 
-/* BACK FUNCTION */
 function goBack(){
-
-window.location.href = "index.html";
-
-/* OR use this if you want browser back */
-// window.history.back();
-
+window.location.href="index.html";
 }
 
 function saveAppointment(event){
