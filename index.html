@@ -107,5 +107,81 @@ window.location.href="index.html";
 
 </script>
 
+  <script>
+
+// Load appointments from localStorage
+function loadAppointments(){
+
+let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+let list = document.getElementById("appointmentList");
+
+list.innerHTML = "";
+
+if(appointments.length === 0){
+list.innerHTML = "<div class='appointment-item'>No appointments yet</div>";
+return;
+}
+
+appointments.forEach(function(app){
+
+let div = document.createElement("div");
+
+div.className = "appointment-item";
+
+div.innerHTML =
+"<strong>Patient:</strong> " + app.name +
+"<br><strong>Doctor:</strong> " + app.doctor +
+"<br><strong>Date:</strong> " + app.date +
+"<br><strong>Time:</strong> " + app.time;
+
+list.appendChild(div);
+
+});
+
+}
+
+// Open pages
+function bookAppointment(){
+window.location.href="appointment.html";
+}
+
+function videoCall(){
+window.location.href="videocall.html";
+}
+
+function prescription(){
+window.location.href="prescription.html";
+}
+
+function labTest(){
+window.location.href="labtest.html";
+}
+
+function showProfile(){
+window.location.href="profile.html";
+}
+
+function contact(){
+window.location.href="contact.html";
+}
+
+function viewAppointmentsPage(){
+window.location.href="myappointments.html";
+}
+
+// Scroll
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({
+behavior:"smooth"
+});
+}
+
+// Load when page opens
+loadAppointments();
+
+</script>
+
 </body>
 </html>
+
