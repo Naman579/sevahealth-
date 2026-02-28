@@ -1,307 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SevaHealth+ | Smart Healthcare</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
-body {
-    background-color: #f4f6f9;
-    color: #333;
+body{
+background:#f4f6f9;
+color:#333;
 }
 
-/* Navbar */
-nav {
-    background: #2c3e50;
-    color: white;
-    padding: 15px 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* NAVBAR */
+nav{
+background:#2c3e50;
+color:white;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
 }
 
-nav h1 {
-    font-size: 24px;
+nav h1{
+font-size:22px;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 25px;
+nav ul{
+list-style:none;
+display:flex;
+gap:20px;
+flex-wrap:wrap;
 }
 
-nav ul li {
-    cursor: pointer;
+nav ul li{
+cursor:pointer;
+font-size:16px;
 }
 
-nav ul li:hover {
-    color: #4A90E2;
+nav ul li:hover{
+color:#4A90E2;
 }
 
-/* Hero */
-.hero {
-    background: linear-gradient(to right, #4A90E2, #357ABD);
-    color: white;
-    padding: 60px 50px;
-    text-align: center;
+/* HERO */
+.hero{
+background:linear-gradient(to right,#4A90E2,#357ABD);
+color:white;
+padding:60px 20px;
+text-align:center;
 }
 
-.hero button {
-    padding: 12px 25px;
-    border: none;
-    background: white;
-    color: #357ABD;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
+.hero h2{
+font-size:28px;
+margin-bottom:10px;
 }
 
-.hero button:hover {
-    background: #f0f0f0;
+.hero p{
+font-size:16px;
+margin-bottom:20px;
 }
 
-/* Features */
-.features {
-    padding: 60px 50px;
-    text-align: center;
+.hero button{
+padding:12px 25px;
+border:none;
+background:white;
+color:#357ABD;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
 }
 
-.feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
+/* FEATURES */
+.features{
+padding:40px 20px;
+text-align:center;
 }
 
-.feature-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+.features h2{
+margin-bottom:20px;
 }
 
-.feature-card button {
-    margin-top: 10px;
-    padding: 8px 15px;
-    border: none;
-    background: #4A90E2;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
 }
 
-.feature-card button:hover {
-    background: #357ABD;
+.feature-card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-/* Appointments */
-.appointments {
-    background: white;
-    padding: 60px 50px;
+.feature-card button{
+margin-top:10px;
+padding:10px 15px;
+border:none;
+background:#4A90E2;
+color:white;
+border-radius:5px;
+cursor:pointer;
+width:100%;
 }
 
-.appointment-list {
-    max-width: 600px;
-    margin: auto;
+/* APPOINTMENTS */
+.appointments{
+background:white;
+padding:40px 20px;
 }
 
-.appointment-item {
-    background: #f4f6f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+.appointment-list{
+max-width:600px;
+margin:auto;
 }
 
-.add-btn {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    background: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.appointment-item{
+background:#f4f6f9;
+padding:15px;
+border-radius:8px;
+margin-bottom:10px;
+font-size:14px;
 }
 
-.add-btn:hover {
-    background: #1e8449;
+.add-btn{
+display:block;
+margin:20px auto;
+padding:12px 20px;
+background:#27ae60;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+width:200px;
 }
 
-.view-btn{
-    display:block;
-    margin:10px auto;
-    padding:10px 20px;
-    background:#e67e22;
-    color:white;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
+/* FOOTER */
+footer{
+background:#2c3e50;
+color:white;
+text-align:center;
+padding:15px;
+font-size:14px;
 }
 
-.view-btn:hover{
-    background:#ca6f1e;
+/* MOBILE OPTIMIZATION */
+@media(max-width:768px){
+
+nav{
+flex-direction:column;
+align-items:flex-start;
 }
 
-/* Footer */
-footer {
-    background: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 20px;
+nav ul{
+flex-direction:column;
+width:100%;
+margin-top:10px;
 }
+
+nav ul li{
+padding:5px 0;
+}
+
+.hero{
+padding:40px 15px;
+}
+
+.hero h2{
+font-size:22px;
+}
+
+.hero p{
+font-size:14px;
+}
+
+.feature-card{
+padding:15px;
+}
+
+.add-btn{
+width:100%;
+}
+
+}
+
 </style>
+
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- NAVBAR -->
 <nav>
-    <h1>SevaHealth+</h1>
-    <ul>
-        <li onclick="scrollToSection('hero')">Home</li>
-        <li onclick="scrollToSection('features')">Services</li>
-        <li onclick="scrollToSection('appointments')">Appointments</li>
-        <li onclick="showProfile()">Profile</li>
-        <li onclick="contact()">Contact</li>
-    </ul>
+
+<h1>SevaHealth+</h1>
+
+<ul>
+
+<li onclick="scrollToSection('hero')">Home</li>
+
+<li onclick="scrollToSection('features')">Services</li>
+
+<li onclick="window.location.href='appointment.html'">Appointments</li>
+
+<li onclick="window.location.href='profile.html'">Profile</li>
+
+<li onclick="window.location.href='contact.html'">Contact</li>
+
+</ul>
+
 </nav>
 
-<!-- Hero -->
+<!-- HERO -->
 <section class="hero" id="hero">
-    <h2>Your Health, Our Priority</h2>
-    <p>Book appointments and consult doctors online.</p>
-    <button onclick="bookAppointment()">Book Appointment</button>
+
+<h2>Your Health, Our Priority</h2>
+
+<p>Book appointments and consult doctors online.</p>
+
+<button onclick="window.location.href='appointment.html'">
+Book Appointment
+</button>
+
 </section>
 
-<!-- Features -->
+<!-- FEATURES -->
 <section class="features" id="features">
-    <h2>Our Services</h2>
 
-    <div class="feature-grid">
+<h2>Our Services</h2>
 
-        <div class="feature-card">
-            <h3>📅 Appointment</h3>
-            <button onclick="bookAppointment()">Open</button>
-        </div>
+<div class="feature-grid">
 
-        <div class="feature-card">
-            <h3>📹 Video Call</h3>
-            <button onclick="videoCall()">Start</button>
-        </div>
-
-        <div class="feature-card">
-            <h3>📄 E-Prescription</h3>
-            <button onclick="prescription()">View</button>
-        </div>
-
-        <div class="feature-card">
-            <h3>🧪 Lab Test</h3>
-            <button onclick="labTest()">Book</button>
-        </div>
-
-    </div>
-</section>
-
-<!-- My Appointments -->
-<section class="appointments" id="appointments">
-
-<h2>My Appointments</h2>
-
-<div class="appointment-list" id="appointmentList">
+<div class="feature-card">
+<h3>📅 Appointment</h3>
+<button onclick="window.location.href='appointment.html'">Open</button>
 </div>
 
-<button class="add-btn" onclick="bookAppointment()">
-Book New Appointment
-</button>
+<div class="feature-card">
+<h3>📹 Video Call</h3>
+<button onclick="window.location.href='videocall.html'">Start</button>
+</div>
 
-<button class="view-btn" onclick="viewAppointmentsPage()">
-Open Full Appointments Page
-</button>
+<div class="feature-card">
+<h3>📄 Prescription</h3>
+<button onclick="window.location.href='prescription.html'">View</button>
+</div>
+
+<div class="feature-card">
+<h3>🧪 Lab Test</h3>
+<button onclick="window.location.href='labtest.html'">Book</button>
+</div>
+
+</div>
 
 </section>
 
-<!-- Footer -->
+<!-- FOOTER -->
 <footer>
+
 © 2026 SevaHealth+ | Smart Healthcare
+
 </footer>
 
 <script>
 
-// Load appointments from localStorage
-function loadAppointments(){
-
-let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
-
-let list = document.getElementById("appointmentList");
-
-list.innerHTML = "";
-
-if(appointments.length === 0){
-list.innerHTML = "<div class='appointment-item'>No appointments yet</div>";
-return;
-}
-
-appointments.forEach(function(app){
-
-let div = document.createElement("div");
-
-div.className = "appointment-item";
-
-div.innerHTML =
-"<strong>Doctor:</strong> " + app.doctor +
-"<br><strong>Date:</strong> " + app.date;
-
-list.appendChild(div);
-
-});
-
-}
-
-// Open pages
-function bookAppointment(){
-window.location.href="appointment.html";
-}
-
-function videoCall(){
-window.location.href="videocall.html";
-}
-
-function prescription(){
-window.location.href="prescription.html";
-}
-
-function labTest(){
-window.location.href="labtest.html";
-}
-
-function showProfile(){
-window.location.href="profile.html";
-}
-
-function contact(){
-window.location.href="contact.html";
-}
-
-function viewAppointmentsPage(){
-window.location.href="myappointments.html";
-}
-
-// Scroll
 function scrollToSection(id){
+
 document.getElementById(id).scrollIntoView({
 behavior:"smooth"
 });
-}
 
-// Load when page opens
-loadAppointments();
+}
 
 </script>
 
