@@ -5,176 +5,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SevaHealth+ | Smart Healthcare</title>
+<title>Book Appointment</title>
 
 <style>
 
-/* RESET */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
 body{
+font-family:Arial;
 background:#f4f6f9;
-color:#333;
+padding:20px;
 }
 
-/* NAVBAR */
-nav{
-background:#2c3e50;
-color:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-}
-
-nav h1{
-font-size:20px;
-}
-
-nav ul{
-list-style:none;
-display:flex;
-gap:15px;
-flex-wrap:wrap;
-}
-
-nav ul li{
-cursor:pointer;
-font-size:15px;
-}
-
-nav ul li:hover{
-color:#4A90E2;
-}
-
-/* HERO */
-.hero{
-background:linear-gradient(to right,#4A90E2,#357ABD);
-color:white;
-padding:50px 15px;
-text-align:center;
-}
-
-.hero h2{
-font-size:26px;
-margin-bottom:10px;
-}
-
-.hero p{
-font-size:15px;
-margin-bottom:20px;
-}
-
-.hero button{
-padding:12px 20px;
-border:none;
+.container{
+max-width:400px;
+margin:auto;
 background:white;
-color:#357ABD;
-font-size:16px;
-border-radius:6px;
-cursor:pointer;
-width:200px;
-max-width:90%;
-}
-
-/* FEATURES */
-.features{
-padding:30px 15px;
-text-align:center;
-}
-
-.features h2{
-margin-bottom:20px;
-}
-
-.feature-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-}
-
-.feature-card{
-background:white;
-padding:18px;
+padding:20px;
 border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.1);
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-.feature-card button{
-margin-top:10px;
+h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input{
+width:100%;
 padding:10px;
-border:none;
+margin-bottom:12px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:12px;
 background:#4A90E2;
 color:white;
+border:none;
 border-radius:5px;
+font-size:16px;
 cursor:pointer;
-width:100%;
-}
-
-/* APPOINTMENT PREVIEW */
-.appointments{
-padding:30px 15px;
-background:white;
-margin:15px;
-border-radius:10px;
-}
-
-.appointments h2{
-text-align:center;
-margin-bottom:15px;
-}
-
-.appointment-list{
-max-width:500px;
-margin:auto;
-}
-
-.appointment-item{
-background:#f4f6f9;
-padding:12px;
-border-radius:6px;
-margin-bottom:10px;
-font-size:14px;
-}
-
-/* FOOTER */
-footer{
-background:#2c3e50;
-color:white;
-text-align:center;
-padding:15px;
-font-size:14px;
-margin-top:20px;
-}
-
-/* MOBILE OPTIMIZATION */
-@media(max-width:768px){
-
-nav{
-flex-direction:column;
-align-items:flex-start;
-}
-
-nav ul{
-flex-direction:column;
-width:100%;
-margin-top:10px;
-}
-
-.hero h2{
-font-size:22px;
-}
-
-.hero button{
-width:100%;
-}
-
 }
 
 </style>
@@ -183,133 +54,56 @@ width:100%;
 
 <body>
 
-<!-- NAVBAR -->
-<nav>
+<div class="container">
 
-<h1>SevaHealth+</h1>
+<h2>Book Appointment</h2>
 
-<ul>
+<input type="text" id="name" placeholder="Enter Your Name">
 
-<li onclick="scrollToSection('hero')">Home</li>
+<input type="text" id="doctor" placeholder="Enter Doctor Name">
 
-<li onclick="scrollToSection('features')">Services</li>
+<input type="date" id="date">
 
-<li onclick="window.location.href='appointment.html'">Appointments</li>
+<input type="time" id="time">
 
-<li onclick="window.location.href='profile.html'">Profile</li>
-
-<li onclick="window.location.href='contact.html'">Contact</li>
-
-</ul>
-
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="hero">
-
-<h2>Your Health, Our Priority</h2>
-
-<p>Book appointments and consult doctors online.</p>
-
-<button onclick="window.location.href='appointment.html'">
-Book Appointment
-</button>
-
-</section>
-
-<!-- FEATURES -->
-<section class="features" id="features">
-
-<h2>Our Services</h2>
-
-<div class="feature-grid">
-
-<div class="feature-card">
-<h3>📅 Appointment</h3>
-<button onclick="window.location.href='appointment.html'">Open</button>
-</div>
-
-<div class="feature-card">
-<h3>📹 Video Call</h3>
-<button onclick="window.location.href='videocall.html'">Start</button>
-</div>
-
-<div class="feature-card">
-<h3>📄 Prescription</h3>
-<button onclick="window.location.href='prescription.html'">View</button>
-</div>
-
-<div class="feature-card">
-<h3>🧪 Lab Test</h3>
-<button onclick="window.location.href='labtest.html'">Book</button>
-</div>
+<button onclick="saveAppointment()">Book</button>
 
 </div>
-
-</section>
-
-<!-- APPOINTMENT PREVIEW SECTION -->
-<section class="appointments">
-
-<h2>Your Appointments</h2>
-
-<div class="appointment-list" id="appointmentList">
-
-<p style="text-align:center;color:gray;">No appointments yet</p>
-
-</div>
-
-</section>
-
-<!-- FOOTER -->
-<footer>
-
-© 2026 SevaHealth+ | Smart Healthcare
-
-</footer>
 
 <script>
 
-/* Smooth scroll */
-function scrollToSection(id){
-document.getElementById(id).scrollIntoView({
-behavior:"smooth"
-});
+function saveAppointment(){
+
+let name = document.getElementById("name").value;
+let doctor = document.getElementById("doctor").value;
+let date = document.getElementById("date").value;
+let time = document.getElementById("time").value;
+
+if(name=="" || doctor=="" || date=="" || time==""){
+alert("Please fill all fields");
+return;
 }
 
-/* LOAD appointments from localStorage */
-function loadAppointments(){
+let newAppointment={
+name:name,
+doctor:doctor,
+date:date,
+time:time
+};
 
-let data = localStorage.getItem("appointments");
+let existing = localStorage.getItem("appointments");
 
-let list = document.getElementById("appointmentList");
+let appointments = existing ? JSON.parse(existing) : [];
 
-if(data){
+appointments.push(newAppointment);
 
-let appointments = JSON.parse(data);
+localStorage.setItem("appointments", JSON.stringify(appointments));
 
-list.innerHTML = "";
+alert("Appointment Booked Successfully");
 
-appointments.forEach(function(app){
-
-let div = document.createElement("div");
-
-div.className="appointment-item";
-
-div.innerHTML=
-"<b>"+app.name+"</b><br>"+
-app.doctor+"<br>"+
-app.date+" "+app.time;
-
-list.appendChild(div);
-
-});
+window.location.href="index.html";
 
 }
-
-}
-
-loadAppointments();
 
 </script>
 
