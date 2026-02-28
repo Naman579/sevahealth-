@@ -35,6 +35,21 @@ font-size:22px;
 cursor:pointer;
 }
 
+/* BACK BUTTON IN NAV */
+.back-btn{
+background:#e74c3c;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
+font-size:14px;
+}
+
+.back-btn:hover{
+background:#c0392b;
+}
+
 .container{
 max-width:500px;
 background:white;
@@ -107,6 +122,11 @@ padding:20px;
 SevaHealth+
 </h1>
 
+<!-- BACK BUTTON ADDED -->
+<button class="back-btn" onclick="goBack()">
+← Back
+</button>
+
 </nav>
 
 <div class="container">
@@ -132,7 +152,6 @@ SevaHealth+
 <label>Select Date</label>
 <input type="date" id="date" required>
 
-<!-- NEW TIME OPTION ADDED -->
 <label>Select Time</label>
 <input type="time" id="time" required>
 
@@ -148,11 +167,19 @@ Book Appointment
 
 <script>
 
+/* BACK FUNCTION */
+function goBack(){
+
+window.location.href = "index.html";
+
+/* OR use this if you want browser back */
+// window.history.back();
+
+}
+
 function saveAppointment(event){
 
 event.preventDefault();
-
-/* GET VALUES */
 
 let name =
 document.getElementById("name").value;
@@ -166,12 +193,8 @@ document.getElementById("date").value;
 let time =
 document.getElementById("time").value;
 
-/* GET EXISTING DATA */
-
 let appointments =
 JSON.parse(localStorage.getItem("appointments")) || [];
-
-/* ADD NEW */
 
 appointments.push({
 
@@ -182,19 +205,13 @@ time: time
 
 });
 
-/* SAVE */
-
 localStorage.setItem(
 "appointments",
 JSON.stringify(appointments)
 );
 
-/* SUCCESS MESSAGE */
-
 document.getElementById("successMsg").innerHTML =
 "✅ Appointment booked successfully!";
-
-/* CLEAR FORM */
 
 document.querySelector("form").reset();
 
