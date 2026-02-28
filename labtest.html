@@ -3,7 +3,10 @@
 <head>
 <title>Lab Test | SevaHealth+</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
+
 body{
 font-family: Arial;
 background:#f4f6f9;
@@ -18,17 +21,85 @@ padding:15px;
 }
 
 .container{
-padding:50px;
+padding:30px 20px;
+}
+
+.box{
+background:white;
+max-width:400px;
+margin:auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:left;
+}
+
+h2{
+text-align:center;
+margin-bottom:15px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:10px;
+}
+
+select,input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-padding:10px 20px;
+padding:12px;
+margin-top:15px;
 background:#e67e22;
 color:white;
 border:none;
 border-radius:5px;
 cursor:pointer;
+width:100%;
 }
+
+button:hover{
+background:#ca6f1e;
+}
+
+.back-btn{
+background:#2c3e50;
+margin-top:10px;
+}
+
+.test-list{
+margin-top:20px;
+}
+
+.test-item{
+background:#f4f6f9;
+padding:10px;
+border-radius:5px;
+margin-top:8px;
+font-size:14px;
+}
+
+.success{
+color:green;
+text-align:center;
+margin-top:10px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.box{
+width:100%;
+}
+
+}
+
 </style>
 
 </head>
@@ -41,19 +112,134 @@ cursor:pointer;
 
 <div class="container">
 
+<div class="box">
+
 <h2>Book Lab Test</h2>
 
-<button onclick="alert('Lab Test Booked Successfully')">
+<label>Select Test</label>
+<select id="test">
+<option value="">Select Test</option>
+<option>Blood Test</option>
+<option>Urine Test</option>
+<option>X-Ray</option>
+<option>MRI Scan</option>
+<option>CT Scan</option>
+<option>COVID Test</option>
+<option>Thyroid Test</option>
+<option>Sugar Test</option>
+</select>
+
+<label>Select Date</label>
+<input type="date" id="date">
+
+<label>Select Time</label>
+<input type="time" id="time">
+
+<button onclick="bookTest()">
 Book Test
 </button>
 
-<br><br>
+<div class="success" id="msg"></div>
 
-<a href="index.html">
-<button>Back to Home</button>
-</a>
+<div class="test-list" id="testList">
+</div>
+
+<button class="back-btn" onclick="goHome()">
+Back to Home
+</button>
 
 </div>
+
+</div>
+
+<script>
+
+/* LOAD TESTS */
+function loadTests(){
+
+let tests =
+JSON.parse(localStorage.getItem("labTests")) || [];
+
+let list =
+document.getElementById("testList");
+
+list.innerHTML="";
+
+if(tests.length===0){
+
+list.innerHTML="<div class='test-item'>No lab tests booked</div>";
+return;
+
+}
+
+tests.forEach(function(t){
+
+let div=document.createElement("div");
+
+div.className="test-item";
+
+div.innerHTML=
+"<strong>Test:</strong> "+t.test+
+"<br><strong>Date:</strong> "+t.date+
+"<br><strong>Time:</strong> "+t.time;
+
+list.appendChild(div);
+
+});
+
+}
+
+/* BOOK TEST */
+function bookTest(){
+
+let test=
+document.getElementById("test").value;
+
+let date=
+document.getElementById("date").value;
+
+let time=
+document.getElementById("time").value;
+
+if(test=="" || date=="" || time==""){
+
+alert("Please fill all fields");
+return;
+
+}
+
+let tests=
+JSON.parse(localStorage.getItem("labTests")) || [];
+
+tests.push({
+
+test:test,
+date:date,
+time:time
+
+});
+
+localStorage.setItem(
+"labTests",
+JSON.stringify(tests)
+);
+
+document.getElementById("msg").innerHTML=
+"✅ Lab Test Booked Successfully";
+
+loadTests();
+
+}
+
+/* BACK */
+function goHome(){
+window.location.href="index.html";
+}
+
+/* AUTO LOAD */
+loadTests();
+
+</script>
 
 </body>
 </html>
