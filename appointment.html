@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appointment | SevaHealth+</title>
+
+<title>Book Appointment | SevaHealth+</title>
 
 <style>
+
+/* SAME UI */
 *{
 margin:0;
 padding:0;
@@ -17,149 +21,182 @@ body{
 background:#f4f6f9;
 }
 
-/* Navbar */
 nav{
 background:#2c3e50;
 color:white;
-padding:15px 50px;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+nav h1{
+font-size:22px;
+cursor:pointer;
 }
 
 .container{
+max-width:500px;
 background:white;
-width:350px;
-margin:60px auto;
-padding:30px;
+padding:25px;
+margin:40px auto;
 border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-h2{
+.container h2{
+text-align:center;
 margin-bottom:20px;
 }
 
-input{
+label{
+font-weight:bold;
+display:block;
+margin-top:10px;
+}
+
+input, select{
 width:100%;
 padding:10px;
-margin:10px 0;
-border:1px solid #ccc;
+margin-top:5px;
 border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-padding:10px 20px;
-margin-top:10px;
-border:none;
-border-radius:5px;
-cursor:pointer;
-font-size:16px;
-}
-
-.save-btn{
+width:100%;
+padding:12px;
+margin-top:20px;
 background:#27ae60;
 color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
 }
 
-.save-btn:hover{
-background:#1e8449;
+button:hover{
+background:#219150;
 }
 
-.back-btn{
-background:#4A90E2;
-color:white;
+.success{
+color:green;
+text-align:center;
+margin-top:10px;
 }
 
-.back-btn:hover{
-background:#357ABD;
+/* MOBILE */
+@media(max-width:768px){
+
+.container{
+margin:20px;
+padding:20px;
 }
 
-.view-btn{
-background:#e67e22;
-color:white;
 }
 
-.view-btn:hover{
-background:#ca6f1e;
-}
 </style>
+
 </head>
 
 <body>
 
 <nav>
-<h1>SevaHealth+ | Book Appointment</h1>
+
+<h1 onclick="window.location.href='index.html'">
+SevaHealth+
+</h1>
+
 </nav>
 
 <div class="container">
 
-<h2>Book New Appointment</h2>
+<h2>Book Appointment</h2>
 
-<input type="text" id="doctor" placeholder="Enter Doctor Name">
+<form onsubmit="saveAppointment(event)">
 
-<input type="date" id="date">
+<label>Patient Name</label>
+<input type="text" id="name" required>
 
-<button class="save-btn" onclick="saveAppointment()">
-Save Appointment
+<label>Select Doctor</label>
+<select id="doctor" required>
+
+<option value="">Select Doctor</option>
+<option>Dr. Sharma</option>
+<option>Dr. Patel</option>
+<option>Dr. Mehta</option>
+<option>Dr. Khan</option>
+
+</select>
+
+<label>Select Date</label>
+<input type="date" id="date" required>
+
+<!-- NEW TIME OPTION ADDED -->
+<label>Select Time</label>
+<input type="time" id="time" required>
+
+<button type="submit">
+Book Appointment
 </button>
 
-<br><br>
+</form>
 
-<button class="view-btn" onclick="viewAppointments()">
-View My Appointments
-</button>
-
-<br><br>
-
-<button class="back-btn" onclick="goHome()">
-Back to Home
-</button>
+<div class="success" id="successMsg"></div>
 
 </div>
 
 <script>
 
-// Save appointment
-function saveAppointment(){
+function saveAppointment(event){
 
-let doctor = document.getElementById("doctor").value;
-let date = document.getElementById("date").value;
+event.preventDefault();
 
-if(doctor === "" || date === ""){
-alert("Please fill all fields");
-return;
-}
+/* GET VALUES */
 
-// get existing data
-let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+let name =
+document.getElementById("name").value;
 
-// add new appointment
+let doctor =
+document.getElementById("doctor").value;
+
+let date =
+document.getElementById("date").value;
+
+let time =
+document.getElementById("time").value;
+
+/* GET EXISTING DATA */
+
+let appointments =
+JSON.parse(localStorage.getItem("appointments")) || [];
+
+/* ADD NEW */
+
 appointments.push({
+
+name: name,
 doctor: doctor,
-date: date
+date: date,
+time: time
+
 });
 
-// save back
-localStorage.setItem("appointments", JSON.stringify(appointments));
+/* SAVE */
 
-alert("Appointment Saved Successfully");
+localStorage.setItem(
+"appointments",
+JSON.stringify(appointments)
+);
 
-// clear fields
-document.getElementById("doctor").value="";
-document.getElementById("date").value="";
+/* SUCCESS MESSAGE */
 
-}
+document.getElementById("successMsg").innerHTML =
+"✅ Appointment booked successfully!";
 
-// go to appointments page
-function viewAppointments(){
+/* CLEAR FORM */
 
-window.location.href="myappointments.html";
-
-}
-
-// go to home
-function goHome(){
-
-window.location.href="index.html";
+document.querySelector("form").reset();
 
 }
 
