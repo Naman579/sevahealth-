@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Video Call | SevaHealth+</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
+
 body{
 font-family: Arial;
 background:#f4f6f9;
@@ -18,17 +22,104 @@ padding:15px;
 }
 
 .container{
-padding:50px;
+padding:30px 15px;
+}
+
+.box{
+background:white;
+max-width:400px;
+margin:auto;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+text-align:left;
+}
+
+h2{
+text-align:center;
+margin-bottom:15px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:10px;
+}
+
+select,input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:5px;
+border:1px solid #ccc;
 }
 
 button{
-padding:10px 20px;
-background:#27ae60;
-color:white;
+padding:12px;
+margin-top:15px;
 border:none;
 border-radius:5px;
 cursor:pointer;
+width:100%;
+font-size:16px;
 }
+
+.start-btn{
+background:#27ae60;
+color:white;
+}
+
+.start-btn:hover{
+background:#1e8449;
+}
+
+.end-btn{
+background:#e74c3c;
+color:white;
+}
+
+.end-btn:hover{
+background:#c0392b;
+}
+
+.back-btn{
+background:#2c3e50;
+color:white;
+}
+
+.status{
+margin-top:10px;
+font-weight:bold;
+text-align:center;
+}
+
+.timer{
+font-size:18px;
+color:#27ae60;
+text-align:center;
+margin-top:5px;
+}
+
+.history{
+margin-top:20px;
+}
+
+.call-item{
+background:#f4f6f9;
+padding:10px;
+border-radius:5px;
+margin-top:8px;
+font-size:14px;
+}
+
+@media(max-width:768px){
+
+.box{
+width:100%;
+}
+
+}
+
 </style>
 
 </head>
@@ -36,24 +127,169 @@ cursor:pointer;
 <body>
 
 <nav>
-<h1>SevaHealth+ | Video Call Page</h1>
+<h1>SevaHealth+ | Video Call</h1>
 </nav>
 
 <div class="container">
 
-<h2>Start Video Consultation</h2>
+<div class="box">
 
-<button onclick="alert('Connecting to doctor...')">
+<h2>Video Consultation</h2>
+
+<label>Select Doctor</label>
+<select id="doctor">
+<option value="">Select Doctor</option>
+<option>Dr. Sharma</option>
+<option>Dr. Patel</option>
+<option>Dr. Mehta</option>
+<option>Dr. Khan</option>
+</select>
+
+<label>Select Date</label>
+<input type="date" id="date">
+
+<label>Select Time</label>
+<input type="time" id="time">
+
+<button class="start-btn" onclick="startCall()">
 Start Call
 </button>
 
-<br><br>
+<button class="end-btn" onclick="endCall()">
+End Call
+</button>
 
-<a href="index.html">
-<button>Back to Home</button>
-</a>
+<div class="status" id="status">
+Status: Not Connected
+</div>
+
+<div class="timer" id="timer">
+00:00
+</div>
+
+<div class="history">
+
+<h3>Call History</h3>
+
+<div id="callList"></div>
 
 </div>
+
+<button class="back-btn" onclick="goHome()">
+Back to Home
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let seconds=0;
+let interval=null;
+
+/* START CALL */
+function startCall(){
+
+let doctor=document.getElementById("doctor").value;
+let date=document.getElementById("date").value;
+let time=document.getElementById("time").value;
+
+if(doctor=="" || date=="" || time==""){
+alert("Please select doctor, date and time");
+return;
+}
+
+document.getElementById("status").innerHTML="Status: Connected";
+document.getElementById("status").style.color="green";
+
+seconds=0;
+
+interval=setInterval(updateTimer,1000);
+
+/* SAVE HISTORY */
+
+let calls=
+JSON.parse(localStorage.getItem("videoCalls")) || [];
+
+calls.push({
+doctor:doctor,
+date:date,
+time:time
+});
+
+localStorage.setItem("videoCalls",JSON.stringify(calls));
+
+loadCalls();
+
+}
+
+/* END CALL */
+function endCall(){
+
+clearInterval(interval);
+
+document.getElementById("status").innerHTML="Status: Call Ended";
+document.getElementById("status").style.color="red";
+
+}
+
+/* TIMER */
+function updateTimer(){
+
+seconds++;
+
+let min=Math.floor(seconds/60);
+let sec=seconds%60;
+
+if(min<10) min="0"+min;
+if(sec<10) sec="0"+sec;
+
+document.getElementById("timer").innerHTML=min+":"+sec;
+
+}
+
+/* LOAD CALL HISTORY */
+function loadCalls(){
+
+let calls=
+JSON.parse(localStorage.getItem("videoCalls")) || [];
+
+let list=document.getElementById("callList");
+
+list.innerHTML="";
+
+if(calls.length==0){
+list.innerHTML="No call history";
+return;
+}
+
+calls.forEach(function(call){
+
+let div=document.createElement("div");
+
+div.className="call-item";
+
+div.innerHTML=
+"<strong>Doctor:</strong> "+call.doctor+
+"<br><strong>Date:</strong> "+call.date+
+"<br><strong>Time:</strong> "+call.time;
+
+list.appendChild(div);
+
+});
+
+}
+
+/* BACK */
+function goHome(){
+window.location.href="index.html";
+}
+
+/* AUTO LOAD */
+loadCalls();
+
+</script>
 
 </body>
 </html>
