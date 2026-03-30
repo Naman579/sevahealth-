@@ -85,7 +85,7 @@ text-align:center;
 margin-top:10px;
 }
 
-/* NEW BACK BUTTON STYLE */
+/* BACK BUTTON */
 .bottom-back-btn{
 width:100%;
 padding:12px;
@@ -96,7 +96,6 @@ border:none;
 border-radius:5px;
 font-size:16px;
 cursor:pointer;
-transition:0.3s;
 }
 
 .bottom-back-btn:hover{
@@ -105,12 +104,10 @@ background:#2c3e50;
 
 /* MOBILE */
 @media(max-width:768px){
-
 .container{
 margin:20px;
 padding:20px;
 }
-
 }
 
 </style>
@@ -120,11 +117,9 @@ padding:20px;
 <body>
 
 <nav>
-
 <h1 onclick="window.location.href='index.html'">
 SevaHealth+
 </h1>
-
 </nav>
 
 <div class="container">
@@ -138,13 +133,11 @@ SevaHealth+
 
 <label>Select Doctor</label>
 <select id="doctor" required>
-
 <option value="">Select Doctor</option>
 <option>Dr. Sharma</option>
 <option>Dr. Patel</option>
 <option>Dr. Mehta</option>
 <option>Dr. Khan</option>
-
 </select>
 
 <label>Select Date</label>
@@ -161,7 +154,6 @@ Book Appointment
 
 <div class="success" id="successMsg"></div>
 
-<!-- BACK BUTTON AT BOTTOM -->
 <button class="bottom-back-btn" onclick="goBack()">
 ← Back to Home
 </button>
@@ -170,36 +162,33 @@ Book Appointment
 
 <script>
 
+// ✅ SUPABASE CONFIG (ADDED)
+const SUPABASE_URL = "https://xkefrwpmimepzkgqzbnh.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrZWZyd3BtaW1lcHprZ3F6Ym5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTUxNDIsImV4cCI6MjA5MDQzMTE0Mn0.rQNYcB-rRMo36qd-oI706zx5QosdvBBGLgowDEDgNBc";
+
+// go back
 function goBack(){
 window.location.href="index.html";
 }
 
-function saveAppointment(event){
+async function saveAppointment(event){
 
 event.preventDefault();
 
-let name =
-document.getElementById("name").value;
+let name = document.getElementById("name").value;
+let doctor = document.getElementById("doctor").value;
+let date = document.getElementById("date").value;
+let time = document.getElementById("time").value;
 
-let doctor =
-document.getElementById("doctor").value;
-
-let date =
-document.getElementById("date").value;
-
-let time =
-document.getElementById("time").value;
-
+// ✅ LOCAL STORAGE (UNCHANGED)
 let appointments =
 JSON.parse(localStorage.getItem("appointments")) || [];
 
 appointments.push({
-
 name: name,
 doctor: doctor,
 date: date,
 time: time
-
 });
 
 localStorage.setItem(
@@ -207,6 +196,23 @@ localStorage.setItem(
 JSON.stringify(appointments)
 );
 
+// ✅ SUPABASE INSERT (NEW)
+await fetch(`${SUPABASE_URL}/rest/v1/appointments`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+"apikey": SUPABASE_KEY,
+"Authorization": `Bearer ${SUPABASE_KEY}`
+},
+body: JSON.stringify({
+name: name,
+doctor: doctor,
+date: date,
+time: time
+})
+});
+
+// success msg
 document.getElementById("successMsg").innerHTML =
 "✅ Appointment booked successfully!";
 
