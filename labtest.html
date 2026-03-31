@@ -1,257 +1,207 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Lab Test | SevaHealth+</title>
+    <title>Lab Test | SevaHealth+</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            margin: 0;
+            text-align: center;
+        }
 
-body{
-font-family: Arial;
-background:#f4f6f9;
-margin:0;
-text-align:center;
-}
+        nav {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+        }
 
-nav{
-background:#2c3e50;
-color:white;
-padding:15px;
-}
+        .container {
+            padding: 30px 20px;
+        }
 
-.container{
-padding:30px 20px;
-}
+        .box {
+            background: white;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
 
-.box{
-background:white;
-max-width:400px;
-margin:auto;
-padding:20px;
-border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-text-align:left;
-}
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
 
-h2{
-text-align:center;
-margin-bottom:15px;
-}
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
 
-label{
-font-weight:bold;
-display:block;
-margin-top:10px;
-}
+        select,
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
 
-select,input{
-width:100%;
-padding:10px;
-margin-top:5px;
-border-radius:5px;
-border:1px solid #ccc;
-}
+        button {
+            padding: 12px;
+            margin-top: 15px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
 
-button{
-padding:12px;
-margin-top:15px;
-background:#e67e22;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-width:100%;
-}
+        button:hover {
+            background: #ca6f1e;
+        }
 
-button:hover{
-background:#ca6f1e;
-}
+        .back-btn {
+            background: #2c3e50;
+            margin-top: 10px;
+        }
 
-.back-btn{
-background:#2c3e50;
-margin-top:10px;
-}
+        .test-list {
+            margin-top: 20px;
+        }
 
-.test-list{
-margin-top:20px;
-}
+        .test-item {
+            background: #f4f6f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
 
-.test-item{
-background:#f4f6f9;
-padding:10px;
-border-radius:5px;
-margin-top:8px;
-font-size:14px;
-}
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
 
-.success{
-color:green;
-text-align:center;
-margin-top:10px;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-
-.box{
-width:100%;
-}
-
-}
-
-</style>
-
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .box {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<nav>
-<h1>SevaHealth+ | Lab Test Page</h1>
-</nav>
+    <nav>
+        <h1>SevaHealth+ | Lab Test Page</h1>
+    </nav>
 
-<div class="container">
+    <div class="container">
+        <div class="box">
 
-<div class="box">
+            <h2>Book Lab Test</h2>
 
-<h2>Book Lab Test</h2>
+            <label>Select Test</label>
+            <select id="test">
+                <option value="">Select Test</option>
+                <option>Blood Test</option>
+                <option>Urine Test</option>
+                <option>X-Ray</option>
+                <option>MRI Scan</option>
+                <option>CT Scan</option>
+                <option>COVID Test</option>
+                <option>Thyroid Test</option>
+                <option>Sugar Test</option>
+            </select>
 
-<label>Select Test</label>
-<select id="test">
-<option value="">Select Test</option>
-<option>Blood Test</option>
-<option>Urine Test</option>
-<option>X-Ray</option>
-<option>MRI Scan</option>
-<option>CT Scan</option>
-<option>COVID Test</option>
-<option>Thyroid Test</option>
-<option>Sugar Test</option>
-</select>
+            <label>Select Date</label>
+            <input type="date" id="date">
 
-<label>Select Date</label>
-<input type="date" id="date">
+            <label>Select Time</label>
+            <input type="time" id="time">
 
-<label>Select Time</label>
-<input type="time" id="time">
+            <button onclick="bookTest()">Book Test</button>
 
-<button onclick="bookTest()">
-Book Test
-</button>
+            <div class="success" id="msg"></div>
 
-<div class="success" id="msg"></div>
+            <div class="test-list" id="testList"></div>
 
-<div class="test-list" id="testList">
-</div>
+            <button class="back-btn" onclick="goHome()">Back to Home</button>
 
-<button class="back-btn" onclick="goHome()">
-Back to Home
-</button>
+        </div>
+    </div>
 
-</div>
+    <script>
+        // LOAD TESTS
+        function loadTests() {
+            let tests = JSON.parse(localStorage.getItem("labTests")) || [];
+            let list = document.getElementById("testList");
 
-</div>
+            list.innerHTML = "";
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            if (tests.length === 0) {
+                list.innerHTML = "<div class='test-item'>No lab tests booked</div>";
+                return;
+            }
 
-<!-- ✅ SUPABASE CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            tests.forEach(function (t) {
+                let div = document.createElement("div");
+                div.className = "test-item";
 
-<script>
+                div.innerHTML =
+                    "<strong>Test:</strong> " + t.test +
+                    "<br><strong>Date:</strong> " + t.date +
+                    "<br><strong>Time:</strong> " + t.time;
 
-// ✅ SUPABASE CONFIG
-const SUPABASE_URL = "https://xkefrwpmimepzkgqzbnh.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrZWZyd3BtaW1lcHprZ3F6Ym5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTUxNDIsImV4cCI6MjA5MDQzMTE0Mn0.rQNYcB-rRMo36qd-oI706zx5QosdvBBGLgowDEDgNBc";
+                list.appendChild(div);
+            });
+        }
 
-// ⚠️ IMPORTANT FIX
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // BOOK TEST
+        function bookTest() {
+            let test = document.getElementById("test").value;
+            let date = document.getElementById("date").value;
+            let time = document.getElementById("time").value;
 
+            if (test === "" || date === "" || time === "") {
+                alert("Please fill all fields");
+                return;
+            }
 
-// ✅ LOAD TESTS FROM SUPABASE
-async function loadTests(){
+            let tests = JSON.parse(localStorage.getItem("labTests")) || [];
 
-let list = document.getElementById("testList");
-list.innerHTML = "Loading...";
+            tests.push({
+                test: test,
+                date: date,
+                time: time
+            });
 
-const { data, error } = await supabaseClient
-.from("lab_tests")
-.select("*")
-.order("id", { ascending: false });
+            localStorage.setItem("labTests", JSON.stringify(tests));
 
-if(error){
-list.innerHTML = "Error loading data";
-return;
-}
+            document.getElementById("msg").innerHTML =
+                "✅ Lab Test Booked Successfully";
 
-list.innerHTML = "";
+            loadTests();
+        }
 
-if(data.length === 0){
-list.innerHTML = "<div class='test-item'>No lab tests booked</div>";
-return;
-}
+        // BACK
+        function goHome() {
+            window.location.href = "index.html";
+        }
 
-data.forEach(function(t){
-
-let div = document.createElement("div");
-div.className = "test-item";
-
-div.innerHTML =
-"<strong>Test:</strong> "+t.test+
-"<br><strong>Date:</strong> "+t.date+
-"<br><strong>Time:</strong> "+t.time;
-
-list.appendChild(div);
-
-});
-
-}
-
-
-// ✅ BOOK TEST → SAVE TO SUPABASE
-async function bookTest(){
-
-let test = document.getElementById("test").value;
-let date = document.getElementById("date").value;
-let time = document.getElementById("time").value;
-
-if(test=="" || date=="" || time==""){
-alert("Please fill all fields");
-return;
-}
-
-const { error } = await supabaseClient
-.from("lab_tests")
-.insert([
-{
-test: test,
-date: date,
-time: time
-}
-]);
-
-if(error){
-alert("Error saving data");
-return;
-}
-
-document.getElementById("msg").innerHTML =
-"✅ Lab Test Booked Successfully";
-
-loadTests();
-
-}
-
-
-// BACK
-function goHome(){
-window.location.href="index.html";
-}
-
-
-// AUTO LOAD
-loadTests();
-
-</script>
+        // AUTO LOAD
+        loadTests();
+    </script>
 
 </body>
 </html>
