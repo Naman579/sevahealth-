@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
 font-family: Arial;
 background:#f4f6f9;
@@ -84,17 +83,12 @@ text-align:center;
 margin-top:10px;
 }
 
-/* MOBILE */
 @media(max-width:768px){
-
 .profile{
 width:100%;
 }
-
 }
-
 </style>
-
 </head>
 
 <body>
@@ -143,52 +137,100 @@ Back to Home
 
 <script>
 
-/* LOAD PROFILE */
-function loadProfile(){
+// ✅ SUPABASE CONFIG
+const SUPABASE_URL = "https://xkefrwpmimepzkgqzbnh.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrZWZyd3BtaW1lcHprZ3F6Ym5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTUxNDIsImV4cCI6MjA5MDQzMTE0Mn0.rQNYcB-rRMo36qd-oI706zx5QosdvBBGLgowDEDgNBc";
 
+/* LOAD PROFILE FROM SUPABASE */
+async function loadProfile(){
+
+try{
+
+const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&order=id.desc&limit=1`,{
+headers:{
+"apikey":SUPABASE_KEY,
+"Authorization":`Bearer ${SUPABASE_KEY}`
+}
+});
+
+const data = await res.json();
+
+if(data.length > 0){
+
+let profile = data[0];
+
+document.getElementById("name").value = profile.name || "";
+document.getElementById("email").value = profile.email || "";
+document.getElementById("phone").value = profile.phone || "";
+document.getElementById("age").value = profile.age || "";
+
+}else{
+
+// fallback local
 let profile =
 JSON.parse(localStorage.getItem("profile")) || {};
 
-document.getElementById("name").value =
-profile.name || "";
+document.getElementById("name").value = profile.name || "";
+document.getElementById("email").value = profile.email || "";
+document.getElementById("phone").value = profile.phone || "";
+document.getElementById("age").value = profile.age || "";
 
-document.getElementById("email").value =
-profile.email || "";
+}
 
-document.getElementById("phone").value =
-profile.phone || "";
-
-document.getElementById("age").value =
-profile.age || "";
+}catch(e){
+console.log(e);
+}
 
 }
 
 /* ENABLE EDIT */
 function enableEdit(){
-
 document.getElementById("name").disabled=false;
 document.getElementById("email").disabled=false;
 document.getElementById("phone").disabled=false;
 document.getElementById("age").disabled=false;
-
 }
 
 /* SAVE PROFILE */
-function saveProfile(){
+async function saveProfile(){
 
 let profile={
-
 name:document.getElementById("name").value,
 email:document.getElementById("email").value,
 phone:document.getElementById("phone").value,
 age:document.getElementById("age").value
-
 };
 
+// LOCAL STORAGE
 localStorage.setItem("profile",JSON.stringify(profile));
 
-document.getElementById("msg").innerHTML=
+try{
+
+const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles`,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"apikey":SUPABASE_KEY,
+"Authorization":`Bearer ${SUPABASE_KEY}`,
+"Prefer":"return=minimal"
+},
+body:JSON.stringify(profile)
+});
+
+if(!res.ok){
+let err = await res.text();
+console.log(err);
+alert("Error saving profile");
+return;
+}
+
+document.getElementById("msg").innerHTML =
 "✅ Profile saved successfully";
+
+}catch(e){
+console.log(e);
+alert("Network error");
+}
 
 }
 
