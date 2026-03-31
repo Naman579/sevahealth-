@@ -91,7 +91,6 @@
             margin-top: 10px;
         }
 
-        /* MOBILE */
         @media (max-width: 768px) {
             .box {
                 width: 100%;
@@ -102,106 +101,158 @@
 
 <body>
 
-    <nav>
-        <h1>SevaHealth+ | Lab Test Page</h1>
-    </nav>
+<nav>
+    <h1>SevaHealth+ | Lab Test Page</h1>
+</nav>
 
-    <div class="container">
-        <div class="box">
+<div class="container">
+    <div class="box">
 
-            <h2>Book Lab Test</h2>
+        <h2>Book Lab Test</h2>
 
-            <label>Select Test</label>
-            <select id="test">
-                <option value="">Select Test</option>
-                <option>Blood Test</option>
-                <option>Urine Test</option>
-                <option>X-Ray</option>
-                <option>MRI Scan</option>
-                <option>CT Scan</option>
-                <option>COVID Test</option>
-                <option>Thyroid Test</option>
-                <option>Sugar Test</option>
-            </select>
+        <label>Select Test</label>
+        <select id="test">
+            <option value="">Select Test</option>
+            <option>Blood Test</option>
+            <option>Urine Test</option>
+            <option>X-Ray</option>
+            <option>MRI Scan</option>
+            <option>CT Scan</option>
+            <option>COVID Test</option>
+            <option>Thyroid Test</option>
+            <option>Sugar Test</option>
+        </select>
 
-            <label>Select Date</label>
-            <input type="date" id="date">
+        <label>Select Date</label>
+        <input type="date" id="date">
 
-            <label>Select Time</label>
-            <input type="time" id="time">
+        <label>Select Time</label>
+        <input type="time" id="time">
 
-            <button onclick="bookTest()">Book Test</button>
+        <button onclick="bookTest()">Book Test</button>
 
-            <div class="success" id="msg"></div>
+        <div class="success" id="msg"></div>
 
-            <div class="test-list" id="testList"></div>
+        <div class="test-list" id="testList"></div>
 
-            <button class="back-btn" onclick="goHome()">Back to Home</button>
+        <button class="back-btn" onclick="goHome()">Back to Home</button>
 
-        </div>
     </div>
+</div>
 
-    <script>
-        // LOAD TESTS
-        function loadTests() {
-            let tests = JSON.parse(localStorage.getItem("labTests")) || [];
-            let list = document.getElementById("testList");
+<script>
 
-            list.innerHTML = "";
+// ✅ SUPABASE CONFIG
+const SUPABASE_URL = "https://xkefrwpmimepzkgqzbnh.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrZWZyd3BtaW1lcHprZ3F6Ym5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTUxNDIsImV4cCI6MjA5MDQzMTE0Mn0.rQNYcB-rRMo36qd-oI706zx5QosdvBBGLgowDEDgNBc";
 
-            if (tests.length === 0) {
-                list.innerHTML = "<div class='test-item'>No lab tests booked</div>";
-                return;
-            }
+// LOAD TESTS (SUPABASE se)
+async function loadTests(){
 
-            tests.forEach(function (t) {
-                let div = document.createElement("div");
-                div.className = "test-item";
+let list = document.getElementById("testList");
+list.innerHTML = "Loading...";
 
-                div.innerHTML =
-                    "<strong>Test:</strong> " + t.test +
-                    "<br><strong>Date:</strong> " + t.date +
-                    "<br><strong>Time:</strong> " + t.time;
+try {
 
-                list.appendChild(div);
-            });
-        }
+const res = await fetch(`${SUPABASE_URL}/rest/v1/lab_tests?select=*`, {
+headers: {
+"apikey": SUPABASE_KEY,
+"Authorization": `Bearer ${SUPABASE_KEY}`
+}
+});
 
-        // BOOK TEST
-        function bookTest() {
-            let test = document.getElementById("test").value;
-            let date = document.getElementById("date").value;
-            let time = document.getElementById("time").value;
+const data = await res.json();
 
-            if (test === "" || date === "" || time === "") {
-                alert("Please fill all fields");
-                return;
-            }
+list.innerHTML = "";
 
-            let tests = JSON.parse(localStorage.getItem("labTests")) || [];
+if(data.length === 0){
+list.innerHTML = "<div class='test-item'>No lab tests booked</div>";
+return;
+}
 
-            tests.push({
-                test: test,
-                date: date,
-                time: time
-            });
+data.forEach(function(t){
 
-            localStorage.setItem("labTests", JSON.stringify(tests));
+let div = document.createElement("div");
+div.className = "test-item";
 
-            document.getElementById("msg").innerHTML =
-                "✅ Lab Test Booked Successfully";
+div.innerHTML =
+"<strong>Test:</strong> "+t.test+
+"<br><strong>Date:</strong> "+t.date+
+"<br><strong>Time:</strong> "+t.time;
 
-            loadTests();
-        }
+list.appendChild(div);
 
-        // BACK
-        function goHome() {
-            window.location.href = "index.html";
-        }
+});
 
-        // AUTO LOAD
-        loadTests();
-    </script>
+} catch(err){
+list.innerHTML = "Error loading data";
+}
+
+}
+
+// BOOK TEST
+async function bookTest(){
+
+let test = document.getElementById("test").value;
+let date = document.getElementById("date").value;
+let time = document.getElementById("time").value;
+
+if(test=="" || date=="" || time==""){
+alert("Please fill all fields");
+return;
+}
+
+// ✅ LOCAL STORAGE (same)
+let tests =
+JSON.parse(localStorage.getItem("labTests")) || [];
+
+tests.push({ test, date, time });
+
+localStorage.setItem("labTests", JSON.stringify(tests));
+
+// ✅ SUPABASE INSERT
+try {
+
+const res = await fetch(`${SUPABASE_URL}/rest/v1/lab_tests`, {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+"apikey": SUPABASE_KEY,
+"Authorization": `Bearer ${SUPABASE_KEY}`,
+"Prefer": "return=minimal"
+},
+body: JSON.stringify({
+test: test,
+date: date,
+time: time
+})
+});
+
+if(!res.ok){
+throw new Error("Insert failed");
+}
+
+// success msg
+document.getElementById("msg").innerHTML =
+"✅ Lab Test Booked Successfully";
+
+loadTests();
+
+} catch(err){
+alert("Error saving data");
+}
+
+}
+
+// BACK
+function goHome(){
+window.location.href="index.html";
+}
+
+// AUTO LOAD
+loadTests();
+
+</script>
 
 </body>
 </html>
