@@ -159,13 +159,13 @@ Back to Home
 
 // ✅ SUPABASE CONFIG
 const SUPABASE_URL = "https://xkefrwpmimepzkgqzbnh.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhrZWZyd3BtaW1lcHprZ3F6Ym5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4NTUxNDIsImV4cCI6MjA5MDQzMTE0Mn0.rQNYcB-rRMo36qd-oI706zx5QosdvBBGLgowDEDgNBc";
+const SUPABASE_KEY = "YOUR_KEY_HERE";
 
-// ⚠️ IMPORTANT FIX
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// IMPORTANT FIX
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-// ✅ LOAD TESTS FROM SUPABASE
+// ✅ LOAD FROM SUPABASE
 async function loadTests(){
 
 let list = document.getElementById("testList");
@@ -191,6 +191,7 @@ return;
 data.forEach(function(t){
 
 let div = document.createElement("div");
+
 div.className = "test-item";
 
 div.innerHTML =
@@ -205,7 +206,7 @@ list.appendChild(div);
 }
 
 
-// ✅ BOOK TEST → SAVE TO SUPABASE
+// ✅ SAVE TO SUPABASE
 async function bookTest(){
 
 let test = document.getElementById("test").value;
@@ -229,6 +230,7 @@ time: time
 
 if(error){
 alert("Error saving data");
+console.log(error);
 return;
 }
 
